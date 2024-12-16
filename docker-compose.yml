@@ -1,0 +1,74 @@
+services:
+  mongo1:
+    container_name: mongo1
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/mongo1:/data/db
+      - ./keyfile:/data/configdb/keyfile
+    networks:
+      - mongo-network
+    entrypoint: >
+      bash -c "
+      chown mongodb:mongodb /data/configdb/keyfile &&
+      chmod 600 /data/configdb/keyfile &&
+      docker-entrypoint.sh mongod --replSet rs0 --auth --keyFile /data/configdb/keyfile --bind_ip_all
+      "
+    env_file:
+      - .env
+
+  mongo2:
+    container_name: mongo2
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    ports:
+      - 27018:27017
+    volumes:
+      - ./data/mongo2:/data/db
+      - ./keyfile:/data/configdb/keyfile
+    networks:
+      - mongo-network
+    entrypoint: >
+      bash -c "
+      chown mongodb:mongodb /data/configdb/keyfile &&
+      chmod 600 /data/configdb/keyfile &&
+      docker-entrypoint.sh mongod --replSet rs0 --auth --keyFile /data/configdb/keyfile --bind_ip_all
+      "
+    env_file:
+      - .env
+
+  mongo3:
+    container_name: mongo3
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    ports:
+      - 27019:27017
+    volumes:
+      - ./data/mongo3:/data/db
+      - ./keyfile:/data/configdb/keyfile
+    networks:
+      - mongo-network
+    entrypoint: >
+      bash -c "
+      chown mongodb:mongodb /data/configdb/keyfile &&
+      chmod 600 /data/configdb/keyfile &&
+      docker-entrypoint.sh mongod --replSet rs0 --auth --keyFile /data/configdb/keyfile --bind_ip_all
+      "
+    env_file:
+      - .env
+
+networks:
+  mongo-network:
+    name: mongo-network
+    driver: bridge

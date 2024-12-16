@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", // Mantém compatibilidade com recursos modernos do JS
+    "module": "CommonJS", // Node.js usa CommonJS como padrão
+    "moduleResolution": "Node", // Resolve módulos como o Node.js faria
+    "resolveJsonModule": true, // Permite importar arquivos JSON
+    "esModuleInterop": true, // Permite compatibilidade com módulos ES
+    "forceConsistentCasingInFileNames": true, // Evita problemas de case sensitivity
+    "strict": true, // Ativa verificações estritas de TypeScript
+    "noImplicitAny": false, // Permite variáveis sem tipo explícito
+    "skipLibCheck": true, // Ignora verificações de tipos nas bibliotecas
+    "outDir": "dist", // Define a saída do código compilado
+    "baseUrl": ".", // Define a base para caminhos relativos
+    "paths": {
+      "@/*": ["src/*"] // Cria um alias para a pasta src
+    },
+    "types": ["node"], // Adiciona os tipos do Node.js
+    "typeRoots": ["./node_modules/@types"], // Procura declarações de tipos
+    "allowJs": false // Garante que apenas arquivos TypeScript sejam processados
+  },
+  "include": ["src/**/*.ts"], // Inclui arquivos TypeScript na pasta src
+  "exclude": ["node_modules", "dist"] // Exclui dependências e arquivos compilados
+}
