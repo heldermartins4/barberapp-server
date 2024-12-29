@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ESNext", // Mantém compatibilidade com recursos modernos do JS
+    "target": "ES2020", // Mantém compatibilidade com recursos modernos do JS
     "module": "CommonJS", // Node.js usa CommonJS como padrão
     "moduleResolution": "Node", // Resolve módulos como o Node.js faria
     "resolveJsonModule": true, // Permite importar arquivos JSON

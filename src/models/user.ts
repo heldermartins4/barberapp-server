@@ -1,3 +1,4 @@
+import { UserResponse } from "@/types/user";
 import prisma from "../lib/prisma";
 
 namespace UserModel {
@@ -13,10 +14,18 @@ namespace UserModel {
 
         private db = prisma;
 
-        async createUser(data: UserCreateInput) {
+        async createUser(data: UserCreateInput): Promise<UserResponse> {
             return await this.db.user.create({
                 data
-            });
+            }) as unknown as UserResponse;
+        }
+
+        async getUserByEmail(email: string): Promise<UserResponse> {
+            return await this.db.user.findUnique({
+                where: {
+                    email
+                }
+            }) as unknown as UserResponse;
         }
     }
 }
