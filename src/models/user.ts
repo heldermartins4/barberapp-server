@@ -27,6 +27,15 @@ namespace UserModel {
                 }
             }) as unknown as UserResponse;
         }
+
+        async updateUser(id: string, data: Partial<UserCreateInput>): Promise<UserResponse> {
+            return await this.db.user.update({
+                where: {
+                    id
+                },
+                data
+            }) as unknown as UserResponse;
+        }
     }
 }
 

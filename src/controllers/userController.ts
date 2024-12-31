@@ -15,6 +15,10 @@ export class UserController {
     private user: UserResponse | null = null;
     private tkn: string = '';
 
+    async isValidPassword(password: string) {
+        return await bcrypt.compare(password, this.user!.password);
+    }
+
     async createUser(req: Request, res: Response) {
         try {
             const { email, password, name, role = 'USER' } = req.body;
@@ -52,9 +56,7 @@ export class UserController {
 
             this.user = await this.userDb.getUserByEmail(email);
 
-            const isPasswordValid = await compare(password, this.user.password);
-
-            if (!isPasswordValid) {
+            if (!this.isValidPassword(password)) {
                 res.status(401).json({ error: 'Invalid credentials' });
                 return;
             }
@@ -75,4 +77,17 @@ export class UserController {
     }
 
     // async getCredentialsOAuth(req: Request, res: Response) {}
+
+    async updateUser(req: Request, res: Response) {
+        try {
+            const { id, ...rest } = req.body as UserResponse;
+
+            this.user = await this.userDb.updateUser(id, rest);
+
+            res.status(200).json(this.user);
+        } catch (error) {
+            console.error(`USER UPDATE ERROR:\n ${error}`);
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    }
 }
